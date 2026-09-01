@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glory OSINT - Premium NIK Parser</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --premium-blue: #007AFF;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-gold: #fcf6ba;
+        }
+
+        * { box-sizing: border-box; }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #000;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 122, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(191, 149, 63, 0.1) 0%, transparent 40%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-main);
+            overflow-x: hidden;
+            padding: 20px 0;
+        }
+
+        /* Container Utama */
+        .master-wrapper {
+            width: 90%;
+            max-width: 500px;
+            perspective: 1000px;
+        }
+
+        .page-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255,255,255,0.05);
+            padding: 40px 30px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
+        .lux-header-card {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .lux-icon-box {
+            width: 80px;
+            height: 80px;
+            background: var(--gold-gradient);
+            border-radius: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            font-size: 35px;
+            color: #000;
+            box-shadow: 0 10px 30px rgba(191, 149, 63, 0.3);
+            position: relative;
+        }
+
+        .welcome-text-anim {
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .username-display {
+            font-size: 26px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .role-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-top: 12px;
+            border: 1px solid var(--glass-border);
+            color: var(--text-gold);
+        }
+
+        /* Input & Button */
+        .input-section { margin-top: 20px; }
+
+        .dark-input-box {
+            width: 100%;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .dark-input-box:focus {
+            border-color: #bf953f;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 15px rgba(191, 149, 63, 0.2);
+        }
+
+        .yoshi-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--gold-gradient);
+            border: none;
+            color: #000;
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .yoshi-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(191, 149, 63, 0.4);
+        }
+
+        /* Result Area */
+        #nikResultContainerPage {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 25px;
+            border: 1px solid var(--glass-border);
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .nik-table { width: 100%; border-collapse: collapse; }
+        .nik-table td {
+            padding: 14px 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 14px;
+        }
+        .nik-table td:first-child { color: rgba(255,255,255,0.5); text-transform: capitalize; }
+        .nik-table td:last-child { text-align: right; font-weight: 600; color: var(--text-gold); }
+
+        /* Video Section */
+        .video-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            margin-top: 30px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            background: #000;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Back Home Button */
+        .back-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 18px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-gold);
+        }
+
+        /* Scrollbar */
+        #nikResultContainerPage::-webkit-scrollbar { width: 5px; }
+        #nikResultContainerPage::-webkit-scrollbar-thumb { background: var(--gold-gradient); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="master-wrapper">
+        <div id="page-nikparse" class="page-container">
+            <div class="lux-header-card">
+                <div class="lux-icon-box">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <div class="welcome-text-anim">Premium OSINT Portal</div>
+                <h2 class="username-display">Glory Intelligence</h2>
+                <span class="role-badge"><i class="fas fa-crown"></i> VIP ACCESS GRANTED</span>
+            </div>
+
+            <div class="input-section">
+                <input type="number" id="nikInputPage" class="dark-input-box" placeholder="Masukkan 16 Digit NIK...">
+                <button class="yoshi-btn" id="btnCheckNikPage">Analyze Data</button>
+
+                <div id="nikLoadingPage" style="display:none; text-align:center; margin-top:20px; color: #bf953f;">
+                    <i class="fas fa-circle-notch fa-spin fa-2x"></i>
+                </div>
+
+                <div id="nikResultContainerPage" style="display:none;">
+                    <div id="nikTableAreaPage"></div>
+                </div>
+            </div>
+
+            <div class="video-container">
+                <video autoplay muted loop playsinline>
+                    <source src="https://a.top4top.io/m_3644qg30k1.mp4" type="video/mp4">
+                    Browser Anda tidak mendukung tag video.
+                </video>
+            </div>
+
+            <a href="/tools" class="back-btn" onclick="window.location.reload();">
+                <i class="fas fa-home"></i>
+                Kembali ke Beranda
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('btnCheckNikPage').addEventListener('click', async () => {
+            const nik = document.getElementById('nikInputPage').value; 
+            if(!nik) {
+                alert('Silakan masukkan NIK terlebih dahulu.');
+                return;
+            }
+
+            const loading = document.getElementById('nikLoadingPage');
+            const container = document.getElementById('nikResultContainerPage');
+            const tableArea = document.getElementById('nikTableAreaPage');
+
+            loading.style.display = 'block'; 
+            container.style.display = 'none';
+
+            try { 
+                const r = await fetch(`https://api.siputzx.my.id/api/tools/nik-checker?nik=${nik}`); 
+                const d = await r.json();
+
+                if (d.status && d.result) { 
+                     let h = '<table class="nik-table">'; 
+                     for (const [k, v] of Object.entries(d.result)) {
+                         h += `<tr><td>${k.replace(/_/g, ' ')}</td><td>${v}</td></tr>`;
+                     }
+                     h += '</table>'; 
+                     tableArea.innerHTML = h; 
+                     container.style.display = 'block'; 
+                } else {
+                     alert('Data tidak ditemukan atau format NIK salah.');
+                }
+            } catch (e) {
+                alert('Gangguan koneksi ke server pusat.');
+            } finally { 
+                loading.style.display = 'none'; 
+            }
+        });
+    </script>
+</body>
+</html>

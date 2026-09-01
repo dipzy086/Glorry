@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLORY - PROFILE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #050508;
+            --panel-bg: rgba(20, 20, 30, 0.85);
+            --accent-pink: #ff2d55;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --sidebar-width: 300px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #050508 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- SIDEBAR STYLE (FOTO 2) --- */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(var(--sidebar-width) * -1);
+            width: var(--sidebar-width);
+            height: 100%;
+            background: #0f0f1a;
+            z-index: 1000;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-right: 1px solid rgba(255, 45, 85, 0.2);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .sidebar.active { left: 0; }
+
+        .side-profile-img {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 45, 85, 0.3);
+        }
+
+        .side-user-info h2 {
+            font-family: 'Space Mono', monospace;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .side-id-badge {
+            display: inline-block;
+            background: rgba(255, 45, 85, 0.1);
+            color: var(--accent-pink);
+            border: 1px solid var(--accent-pink);
+            padding: 2px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .side-nav { flex: 1; }
+
+        .side-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 12px 15px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .side-item i { width: 25px; font-size: 20px; }
+        .side-item:hover, .side-item.active { color: white; background: rgba(255, 45, 85, 0.05); border-radius: 8px; }
+
+        .side-footer { margin-top: auto; padding-bottom: 20px; }
+        .dev-info-title { color: var(--accent-pink); font-size: 10px; font-weight: bold; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase; }
+        .dev-name { font-size: 13px; color: var(--text-muted); margin-bottom: 2px; }
+
+        .logout-btn {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            border: 1px solid var(--accent-pink);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            background: rgba(255, 45, 85, 0.1);
+            transition: 0.3s;
+        }
+        .logout-btn:hover { background: var(--accent-pink); }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 999;
+            display: none;
+            backdrop-filter: blur(4px);
+        }
+        .overlay.active { display: block; }
+
+        /* --- MAIN PROFILE CONTENT (FOTO 1) --- */
+        .app-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 20px 0;
+            gap: 20px;
+        }
+
+        .menu-trigger {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .header h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 18px;
+            background: var(--accent-pink);
+            box-shadow: 0 0 10px var(--accent-pink);
+        }
+
+        .card {
+            background: var(--panel-bg);
+            border-radius: 20px;
+            padding: 10px 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 20px; bottom: 20px;
+            width: 3px;
+            background: var(--accent-pink);
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .row:last-child { border: none; }
+
+        .item-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .item-label i { color: var(--accent-pink); width: 20px; text-align: center; }
+
+        .item-value { font-family: 'Space Mono', monospace; font-weight: bold; font-size: 14px; }
+
+        .badge {
+            padding: 2px 10px;
+            border-radius: 15px;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .badge-pink { background: rgba(255, 45, 85, 0.2); color: var(--accent-pink); border: 1px solid var(--accent-pink); }
+        .badge-green { background: rgba(0, 255, 150, 0.1); color: #00ff96; border: 1px solid #00ff96; }
+
+        .pass-container { display: flex; align-items: center; gap: 10px; }
+        .pass-mask { background: #000; padding: 5px 12px; border-radius: 5px; font-size: 12px; letter-spacing: 2px; min-width: 100px; text-align: center; }
+        .eye-btn { background: rgba(255, 45, 85, 0.2); border: none; color: var(--accent-pink); padding: 5px 8px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        .eye-btn:hover { background: rgba(255, 45, 85, 0.4); }
+
+        /* --- BOTTOM NAVIGATION --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 500px;
+            background: #000;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            z-index: 100;
+        }
+
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 11px;
+        }
+
+        .nav-link.active { color: var(--accent-pink); }
+        .nav-link i { font-size: 18px; }
+
+    </style>
+</head>
+<body>
+
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <img src="https://g.top4top.io/p_3645mp9uy1.jpg" class="side-profile-img" alt="User Profile">
+        <div class="side-user-info">
+            <h2>Glory</h2>
+            <div class="side-id-badge">Reguler User</div>
+        </div>
+
+        <nav class="side-nav">
+            <a href="/dashboard" class="side-item"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="/profile" class="side-item active"><i class="far fa-user"></i> Profile</a>
+            <a href="/execution" class="side-item"><i class="fas fa-bolt"></i> Execution</a>
+            <a href="/adduser" class="side-item"><i class="fas fa-lock"></i> Admin Menu</a>
+            <a href="/tqto" class="side-item"><i class="fas fa-users"></i> Support</a>
+        </nav>
+
+        <div class="side-footer">
+            <p class="dev-info-title">DEVELOPMENT INFO</p>
+            <p class="dev-name">@yannz - Dev Base</p>
+            <p class="dev-name">@AiiSigma - Inspirasi</p>
+            <a href="#" class="logout-btn">LOGOUT SYSTEM</a>
+        </div>
+    </aside>
+
+    <div class="app-container">
+        <div class="header">
+            <button class="menu-trigger" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1>GLORY - PROFILE</h1>
+        </div>
+
+        <div class="section-title">Account Information</div>
+        <div class="card">
+            <div class="row">
+                <div class="item-label"><i class="fas fa-user"></i> Username</div>
+                <div class="item-value">${username}</div>
+            </div>
+            <div class="row">
+                <div class="item-label"><i class="fas fa-id-card"></i> User ID</div>
+                <div class="item-value">${username}</div>
+            </div>
+            <div class="row">
+                <div class="item-label"><i class="fas fa-shield-halved"></i> Role</div>
+                <div class="item-value"><span class="badge badge-pink">${role}</span></div>
+            </div>
+            <div class="row">
+                <div class="item-label"><i class="fas fa-calendar-alt"></i> Account Created</div>
+                <div class="item-value">20 Desember 2025</div>
+            </div>
+        </div>
+
+        <div class="section-title">Security & Access</div>
+        <div class="card">
+            <div class="row">
+                <div class="item-label"><i class="fas fa-key"></i> Password</div>
+                <div class="pass-container">
+                    <div class="pass-mask" id="passwordBox">••••••••</div>
+                    <button class="eye-btn" onclick="togglePassword()"><i id="eyeIcon" class="fas fa-eye"></i></button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="item-label"><i class="fas fa-clock"></i> Account Expires</div>
+                <div class="item-value"><span class="badge badge-pink" style="background:rgba(241,196,15,0.1); color:#f1c40f; border-color:#f1c40f;">${expired}</span></div>
+            </div>
+            <div class="row">
+                <div class="item-label"><i class="fas fa-bolt"></i> Account Status</div>
+                <div class="item-value"><span class="badge badge-green">ACTIVE</span></div>
+            </div>
+            <div class="row">
+                <div class="item-label"><i class="fas fa-network-wired"></i> Last Login</div>
+                <div class="item-value" style="color:var(--text-muted)">Just now</div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="/dashboard" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="/execution" class="nav-link"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></a>
+        <a href="/tools" class="nav-link"><i class="fas fa-wrench"></i><span>Tools</span></a>
+        <a href="profile" class="nav-link active"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+    </nav>
+
+    <script>
+        // Fungsi Toggle Sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // Fungsi Toggle Password
+        let passwordVisible = false;
+        // Ganti 'admin123' dengan variabel password asli jika dari database
+        const realPassword = "${password}"; 
+
+        function togglePassword() {
+            const passBox = document.getElementById('passwordBox');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (!passwordVisible) {
+                passBox.textContent = realPassword;
+                eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+                passwordVisible = true;
+            } else {
+                passBox.textContent = "••••••••";
+                eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+                passwordVisible = false;
+            }
+        }
+    </script>
+</body>
+</html>

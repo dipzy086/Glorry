@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050508;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --accent-color: #ff006e;
+            --accent-glow: rgba(255, 0, 110, 0.5);
+            --text-main: #ffffff;
+            --text-sub: #a0a0b0;
+            --glass-blur: 12px;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 110, 0.15) 0%, transparent 40%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 120px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .page-container {
+            width: 100%;
+            max-width: 500px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- HEADER CARD --- */
+        .tools-header-card {
+            background: linear-gradient(165deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+            backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        .tools-header-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, var(--accent-color), transparent 30%);
+            animation: rotate 6s linear infinite;
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .main-icon-wrapper {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, #ff00c1, #7000ff);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 0 25px rgba(112, 0, 255, 0.6);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .header-info h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            margin: 0;
+            letter-spacing: 3px;
+            background: linear-gradient(to right, #fff, #ff006e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-info p {
+            margin: 5px 0 0 0;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .owner-badge {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            background: rgba(255, 0, 110, 0.2);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 9px;
+            font-family: 'Orbitron';
+            font-weight: bold;
+            text-shadow: 0 0 5px var(--accent-color);
+        }
+
+        /* --- GRID TOOLS --- */
+        .tools-grid-new {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .tool-box {
+            background: var(--card-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--border-color);
+            padding: 30px 20px;
+            border-radius: 28px;
+            text-align: left;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow: hidden;
+        }
+
+        .tool-box::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .tool-box:hover::after {
+            transform: translateX(100%);
+        }
+
+        .tool-box:active { transform: scale(0.92); }
+
+        .tool-box:hover {
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3), 0 0 15px rgba(255, 0, 110, 0.1);
+            transform: translateY(-8px);
+        }
+
+        .icon-box {
+            width: 55px;
+            height: 55px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: white;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .color-blue { background: linear-gradient(135deg, #00d2ff, #3a7bd5); box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3); }
+        .color-green { background: linear-gradient(135deg, #1d976c, #93f9b9); box-shadow: 0 5px 15px rgba(29, 151, 108, 0.3); }
+        .color-purple { background: linear-gradient(135deg, #8e2de2, #4a00e0); box-shadow: 0 5px 15px rgba(142, 45, 226, 0.3); }
+        .color-red { background: linear-gradient(135deg, #eb3349, #f45c43); box-shadow: 0 5px 15px rgba(235, 51, 73, 0.3); }
+        .color-orange { background: linear-gradient(135deg, #f2994a, #f2c94c); box-shadow: 0 5px 15px rgba(242, 153, 74, 0.3); }
+
+        .tool-box h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .tool-box p {
+            margin: 0;
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            font-weight: 500;
+        }
+
+        /* --- BOTTOM SHEET --- */
+        .sheet {
+            position: fixed;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: flex-end;
+            transition: all 0.5s cubic-bezier(0.32, 1, 0.23, 1);
+        }
+
+        .sheet.active { top: 0; }
+
+        .sheet-content {
+            background: linear-gradient(to bottom, #121217, #050508);
+            width: 100%;
+            padding: 40px 25px 120px 25px;
+            border-radius: 40px 40px 0 0;
+            border-top: 2px solid var(--accent-color);
+            max-height: 75vh;
+            overflow-y: auto;
+            box-shadow: 0 -15px 40px rgba(255, 0, 110, 0.15);
+        }
+
+        .tool-item {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 18px 20px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .tool-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(10px);
+            border-color: var(--accent-color);
+        }
+
+        .tool-item a {
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-weight: 500;
+        }
+
+        .tool-item i {
+            font-size: 1.2rem;
+            width: 30px;
+            text-align: center;
+            color: var(--accent-color);
+            filter: drop-shadow(0 0 5px var(--accent-color));
+        }
+
+        /* --- POPUP MAINTENANCE --- */
+        .custom-popup {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+        }
+
+        .custom-popup.show { display: flex; animation: zoomIn 0.3s ease-out; }
+
+        @keyframes zoomIn {
+            from { opacity: 0; scale: 0.8; }
+            to { opacity: 1; scale: 1; }
+        }
+
+        .popup-content {
+            background: #1a1a1f;
+            border: 2px solid var(--accent-color);
+            padding: 40px;
+            border-radius: 35px;
+            text-align: center;
+            max-width: 320px;
+            box-shadow: 0 0 50px rgba(255, 0, 110, 0.3);
+        }
+
+        /* --- BOTTOM NAV --- */
+        .nav-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 450px;
+            height: 70px;
+            background: rgba(15, 15, 20, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 25px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1500;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #7a7a8a;
+            text-decoration: none;
+            transition: 0.4s;
+            position: relative;
+        }
+
+        .nav-item.active {
+            color: #ff006e;
+        }
+
+        .nav-item.active::before {
+            content: "";
+            position: absolute;
+            top: -12px;
+            width: 30px;
+            height: 4px;
+            background: #ff006e;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 0 15px #ff006e;
+        }
+
+        .nav-item i, .nav-item svg { font-size: 20px; }
+
+        .nav-item span {
+            font-size: 9px;
+            font-family: 'Orbitron';
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="page-tools" class="page-container">
+        <div class="tools-header-card">
+            <div class="main-icon-wrapper">
+                <i class="fas fa-shield-halved"></i>
+            </div>
+            <div class="header-info">
+                <h1>PROTO-X</h1>
+                <p>Security Interface v2.0</p>
+            </div>
+            <div class="owner-badge">SYSTEM ACTIVE</div>
+        </div>
+
+        <div class="tools-grid-new">
+            <div class="tool-box" onclick="openBottomSheet('downloaderSheet')">
+                <div class="icon-box color-blue"><i class="fas fa-download"></i></div>
+                <div>
+                    <h3>Download</h3>
+                    <p>Media Extractor</p>
+                </div>
+            </div>
+
+            <div class="tool-box" onclick="openBottomSheet('networkSheet')">
+                <div class="icon-box color-green"><i class="fas fa-wifi"></i></div>
+                <div>
+                    <h3>Network</h3>
+                    <p>Analysis Tools</p>
+                </div>
+            </div>
+
+            <div class="tool-box" onclick="openBottomSheet('osintSheet')">
+                <div class="icon-box color-purple"><i class="fas fa-search"></i></div>
+                <div>
+                    <h3>Search</h3>
+                    <p>Intelligence OSINT</p>
+                </div>
+            </div>
+
+            <div class="tool-box" onclick="openBottomSheet('spamSheet')">
+                <div class="icon-box color-red"><i class="fas fa-bolt"></i></div>
+                <div>
+                    <h3>Attack</h3>
+                    <p>Stress Test & Spam</p>
+                </div>
+            </div>
+
+            <div class="tool-box" onclick="openBottomSheet('mediaSheet')" style="grid-column: span 2;">
+                <div class="icon-box color-orange"><i class="fas fa-video"></i></div>
+                <div>
+                    <h3>Video Stream</h3>
+                    <p>Premium Content & Anime</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="networkSheet" class="sheet" onclick="closeBottomSheet(event)">
+        <div class="sheet-content" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h2 style="font-family: 'Orbitron'; color: #fff; margin:0;">Network Tools</h2>
+                <span style="font-size: 1.5rem; color: #ff006e; cursor: pointer;" onclick="hideSheet('networkSheet')"><i class="fas fa-times-circle"></i></span>
+            </div>
+            <div class="tool-item"><a href="/ping"><i class="fas fa-network-wired"></i><span>Ping Test</span></a></div>
+        </div>
+    </div>
+
+    <div id="downloaderSheet" class="sheet" onclick="closeBottomSheet(event)">
+        <div class="sheet-content" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h2 style="font-family: 'Orbitron'; color: #fff; margin:0;">Downloader</h2>
+                <span style="font-size: 1.5rem; color: #ff006e; cursor: pointer;" onclick="hideSheet('downloaderSheet')"><i class="fas fa-times-circle"></i></span>
+            </div>
+            <div class="tool-item"><a href="/tiktok"><i class="fa-brands fa-tiktok"></i><span>Tiktok Downloader</span></a></div>
+            <div class="tool-item"><a href="/pin"><i class="fa-brands fa-pinterest"></i><span>Pint Downloader</span></a></div>
+        </div>
+    </div>
+
+    <div id="spamSheet" class="sheet" onclick="closeBottomSheet(event)">
+        <div class="sheet-content" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h2 style="font-family: 'Orbitron'; color: #fff; margin:0;">Spam Attack</h2>
+                <span style="font-size: 1.5rem; color: #ff006e; cursor: pointer;" onclick="hideSheet('spamSheet')"><i class="fas fa-times-circle"></i></span>
+            </div>
+            <div class="tool-item"><a href="/spam"><i class="fa-brands fa-telegram"></i><span>Spam Telegram</span></a></div>
+            <div class="tool-item"><a href="/osint"><i class="fas fa-id-card"></i><span>NIK Parser</span></a></div>
+        </div>
+    </div>
+
+    <div id="mediaSheet" class="sheet" onclick="closeBottomSheet(event)">
+        <div class="sheet-content" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h2 style="font-family: 'Orbitron'; color: #fff; margin:0;">Search Media</h2>
+                <span style="font-size: 1.5rem; color: #ff006e; cursor: pointer;" onclick="hideSheet('mediaSheet')"><i class="fas fa-times-circle"></i></span>
+            </div>
+            <div class="tool-item"><a href="/anime"><i class="fas fa-film"></i><span>Watch Anime</span></a></div>
+        </div>
+    </div>
+
+    <div id="osintSheet" class="sheet" onclick="closeBottomSheet(event)">
+        <div class="sheet-content" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h2 style="font-family: 'Orbitron'; color: #fff; margin:0;">Search Tools</h2>
+                <span style="font-size: 1.5rem; color: #ff006e; cursor: pointer;" onclick="hideSheet('osintSheet')"><i class="fas fa-times-circle"></i></span>
+            </div>
+            <div class="tool-item"><a href="/nsfw"><i class="fas fa-search-plus"></i><span>Nsfw Search</span></a></div>
+            <div class="tool-item"><a href="/yt"><i class="fab fa-youtube"></i><span>YouTube Search</span></a></div>
+        </div>
+    </div>
+
+    <div id="devPopup" class="custom-popup" onclick="closeDevPopup()">
+        <div class="popup-content" onclick="event.stopPropagation()">
+            <i class="fas fa-microchip" style="font-size: 3.5rem; color: #ff006e; margin-bottom: 20px; filter: drop-shadow(0 0 15px #ff006e);"></i>
+            <h2 id="popupTitle" style="font-family: 'Orbitron'; color: #fff;">Maintenance</h2>
+            <p style="font-size: 0.9rem; color: #aaa; margin-bottom: 25px;">This sector is currently under encryption and development.</p>
+            <button style="background: linear-gradient(135deg, #ff006e, #7000ff); color: white; border: none; padding: 12px 30px; border-radius: 12px; cursor: pointer; font-family: 'Orbitron'; font-weight: bold; width: 100%;" onclick="closeDevPopup()">ACKNOWLEDGE</button>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="/dashboard" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Portal</span>
+        </a>
+        <a href="/execution" class="nav-item">
+            <svg width="22" height="22" viewBox="0 -960 960 960" fill="currentColor" transform="matrix(-1,0,0,1,0,0)">
+                <path d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z"></path>
+            </svg>
+            <span>Chat</span>
+        </a>
+        <a href="/tools" class="nav-item active">
+            <i class="fas fa-tools"></i>
+            <span>Tools</span>
+        </a>
+        <a href="/anime" class="nav-item">
+            <i class="fas fa-film"></i>
+            <span>Anime</span>
+        </a>
+    </nav>
+
+    <script>
+        function openBottomSheet(id) {
+            const sheet = document.getElementById(id);
+            if (sheet) {
+                sheet.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function hideSheet(id) {
+            const sheet = document.getElementById(id);
+            if (sheet) {
+                sheet.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function closeBottomSheet(event) {
+            if (event.target.classList.contains('sheet')) {
+                event.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function closeDevPopup() {
+            document.getElementById('devPopup').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MY SENDERS - PRO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS RESET & VARIABLES */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-dark: #0a0a12;
+            --card-bg: #161625;
+            --accent-pink: #ff2d7d;
+            --accent-purple: #9b4dff;
+            --accent-cyan: #00f3ff;
+            --text-gray: #a0a0b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        /* VIDEO BACKGROUND */
+        .video-bg-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2; overflow: hidden;
+        }
+        .video-bg {
+            min-width: 100%; min-height: 100%;
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover; opacity: 0.3;
+        }
+        .video-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(10, 10, 18, 0.7) 0%, #0a0a12 100%);
+            z-index: -1;
+        }
+
+        .container { width: 100%; max-width: 450px; margin-top: 20px; padding-bottom: 50px; }
+
+        /* HEADER */
+        .header-nav { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
+        .back-circle {
+            width: 40px; height: 40px; background: var(--card-bg);
+            border-radius: 12px; display: flex; align-items: center;
+            justify-content: center; border: 1px solid var(--glass-border);
+            color: white; text-decoration: none;
+        }
+
+        /* MAIN CARD */
+        .main-card { 
+            background: var(--card-bg); 
+            border-radius: 24px; 
+            padding: 25px; 
+            border: 1px solid var(--glass-border); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+        }
+
+        /* GUIDE BOX (SCREENSHOT STYLE) */
+        .guide-box { 
+            background: linear-gradient(135deg, rgba(155, 77, 255, 0.1), rgba(255, 45, 125, 0.1)); 
+            border-radius: 20px; padding: 20px; text-align: center; 
+            margin-bottom: 25px; border: 1px solid rgba(255, 255, 255, 0.05); 
+        }
+        .guide-box i.edu-icon { font-size: 2.5rem; color: var(--accent-cyan); margin-bottom: 10px; display: block; }
+        .guide-box h3 { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin-bottom: 8px; letter-spacing: 1px; }
+        .guide-box p { font-size: 0.8rem; color: var(--text-gray); margin-bottom: 15px; }
+
+        .btn-panduan { 
+            background: rgba(0, 150, 255, 0.15); border: 1px solid #0096ff; 
+            color: var(--accent-cyan); padding: 12px 25px; border-radius: 30px; 
+            font-size: 0.75rem; font-family: 'Orbitron', sans-serif; 
+            text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+            cursor: pointer; transition: 0.3s;
+        }
+        .btn-panduan:hover { background: rgba(0, 150, 255, 0.3); transform: translateY(-2px); }
+
+        /* INPUTS */
+        .input-wrapper { margin-bottom: 20px; position: relative; }
+        .input-wrapper label { display: block; font-size: 0.7rem; color: var(--text-gray); text-transform: uppercase; margin-bottom: 8px; font-family: 'Orbitron'; }
+
+        .country-selector {
+            background: #0d0d18; border: 1px solid var(--glass-border);
+            border-radius: 15px; padding: 15px; display: flex;
+            align-items: center; justify-content: space-between;
+            cursor: pointer;
+        }
+        .country-dropdown {
+            position: absolute; top: 100%; left: 0; width: 100%;
+            max-height: 250px; overflow-y: auto; background: #161625;
+            border: 1px solid var(--accent-purple); border-radius: 15px;
+            margin-top: 8px; z-index: 1000; display: none;
+        }
+        .country-dropdown.show { display: block; }
+        .country-option { padding: 12px 15px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: 0.2s; }
+        .country-option:hover { background: rgba(155, 77, 255, 0.2); }
+
+        .input-field { 
+            width: 100%; background: #0d0d18; border: 1px solid var(--glass-border); 
+            border-radius: 15px; padding: 18px; color: white; font-size: 1rem; outline: none; 
+        }
+
+        .execute-btn { 
+            width: 100%; background: linear-gradient(90deg, #ff2d7d, #9b4dff); 
+            border: none; padding: 18px; border-radius: 18px; color: white; 
+            font-family: 'Orbitron', sans-serif; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+        }
+
+        /* PANDUAN MODAL (SCREENSHOT 2 STYLE) */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+            display: none; justify-content: center; align-items: center; z-index: 2000;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-content {
+            background: #161625; width: 90%; max-width: 400px;
+            border-radius: 30px; border: 1px solid var(--glass-border);
+            padding: 30px; position: relative;
+        }
+        .modal-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
+        .modal-header i { font-size: 1.8rem; color: var(--accent-pink); }
+        .modal-header h2 { font-family: 'Orbitron'; font-size: 1rem; line-height: 1.2; }
+
+        .step-item {
+            background: rgba(255,255,255,0.03); border-radius: 20px;
+            padding: 15px; margin-bottom: 15px; display: flex; gap: 15px;
+            border-left: 4px solid var(--accent-pink);
+        }
+        .step-number {
+            background: var(--accent-cyan); color: #000; width: 28px; height: 28px;
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            font-weight: 900; font-size: 0.8rem; flex-shrink: 0;
+        }
+        .step-text h4 { font-family: 'Orbitron'; font-size: 0.75rem; margin-bottom: 5px; color: #fff; }
+        .step-text p { font-size: 0.75rem; color: var(--text-gray); line-height: 1.4; }
+
+        .btn-mengerti {
+            width: 100%; background: linear-gradient(90deg, #ff2d7d, #9b4dff);
+            border: none; padding: 15px; border-radius: 25px; color: white;
+            font-family: 'Orbitron'; font-size: 0.8rem; margin-top: 10px; cursor: pointer;
+        }
+
+        /* LIST SENDER */
+        .nodes-card { background: var(--card-bg); border-radius: 24px; padding: 25px; margin-top: 20px; border: 1px solid var(--glass-border); }
+        .sender-item { 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: #0d0d18; padding: 15px; border-radius: 15px; margin-bottom: 10px; 
+        }
+        .sender-status { width: 10px; height: 10px; border-radius: 50%; background: #39ff14; box-shadow: 0 0 10px #39ff14; }
+
+        /* NOTIF */
+        .notification { position: fixed; top: 20px; right: 20px; padding: 15px; border-radius: 12px; background: #161625; border-left: 4px solid var(--accent-pink); z-index: 3000; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <div class="video-bg-container">
+        <video autoplay loop muted playsinline class="video-bg">
+            <source src="https://g.top4top.io/m_3644y89uh1.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <div class="modal-overlay" id="guideModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-graduation-cap"></i>
+                <h2>PANDUAN LENGKAP<br>CONNECT SENDER</h2>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-text">
+                    <h4>PILIH KODE NEGARA</h4>
+                    <p>Pilih <b>kode negara</b> dari dropdown. (Contoh: +62 untuk Indonesia, +1 untuk USA)</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-text">
+                    <h4>MASUKKAN NOMOR WHATSAPP</h4>
+                    <p>Masukkan <b>nomor WhatsApp</b> tanpa kode negara. (Contoh: 81234567890)</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-text">
+                    <h4>KLIK "GET CODE"</h4>
+                    <p>Klik tombol <b>"GET CODE"</b>. Sistem akan memproses dan menampilkan <b>Kode Pairing</b> unik.</p>
+                </div>
+            </div>
+
+            <button class="btn-mengerti" onclick="toggleModal()">
+                <i class="fas fa-check-circle"></i> SAYA MENGERTI
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header-nav">
+            <a href="/dashboard" class="back-circle"><i class="fas fa-chevron-left"></i></a>
+            <h1 style="font-family:'Orbitron'; font-size:1rem; letter-spacing:2px;">MY SENDERS</h1>
+        </div>
+
+        <div class="main-card">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px; font-family:'Orbitron'; font-size:0.75rem; color:var(--accent-purple);">
+                <i class="fas fa-tower-broadcast"></i> NEW CONNECTION
+            </div>
+
+            <div class="guide-box">
+                <i class="fas fa-graduation-cap edu-icon"></i>
+                <div style="background:#ff2d7d; color:white; font-size:10px; padding:2px 8px; border-radius:4px; display:inline-block; font-family:'Orbitron'; margin-bottom:10px;">NEW</div>
+                <h3>LEARN HOW TO CONNECT</h3>
+                <p>Step-by-step guide to link your WhatsApp device securely</p>
+                <div class="btn-panduan" onclick="toggleModal()">
+                    <i class="fas fa-book-open"></i> PANDUAN LENGKAP
+                </div>
+            </div>
+
+            <div class="input-wrapper">
+                <label>Country Code</label>
+                <div class="country-selector" id="selectedCountry">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <img src="https://flagcdn.com/w20/id.png" id="currentFlag">
+                        <span id="currentName">+62 Indonesia</span>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size:0.7rem; color:var(--accent-pink)"></i>
+                </div>
+                <div class="country-dropdown" id="countryDropdown">
+                    <div class="country-option" data-code="62" data-flag="id" data-ph="81234567890"><img src="https://flagcdn.com/w20/id.png"> +62 Indonesia</div>
+                    <div class="country-option" data-code="1" data-flag="us" data-ph="2025550123"><img src="https://flagcdn.com/w20/us.png"> +1 USA</div>
+                    <div class="country-option" data-code="44" data-flag="gb" data-ph="7700900123"><img src="https://flagcdn.com/w20/gb.png"> +44 UK</div>
+                    <div class="country-option" data-code="60" data-flag="my" data-ph="123456789"><img src="https://flagcdn.com/w20/my.png"> +60 Malaysia</div>
+                    <div class="country-option" data-code="65" data-flag="sg" data-ph="81234567"><img src="https://flagcdn.com/w20/sg.png"> +65 Singapore</div>
+                    <div class="country-option" data-code="61" data-flag="au" data-ph="412345678"><img src="https://flagcdn.com/w20/au.png"> +61 Australia</div>
+                    
+                    <div class="country-option" data-code="91" data-flag="in" data-ph="9876543210"><img src="https://flagcdn.com/w20/in.png"> +91 India</div>
+                    <div class="country-option" data-code="81" data-flag="jp" data-ph="9012345678"><img src="https://flagcdn.com/w20/jp.png"> +81 Japan</div>
+                    <div class="country-option" data-code="82" data-flag="kr" data-ph="1012345678"><img src="https://flagcdn.com/w20/kr.png"> +82 South Korea</div>
+                    <div class="country-option" data-code="49" data-flag="de" data-ph="15123456789"><img src="https://flagcdn.com/w20/de.png"> +49 Germany</div>
+                    <div class="country-option" data-code="33" data-flag="fr" data-ph="612345678"><img src="https://flagcdn.com/w20/fr.png"> +33 France</div>
+                    <div class="country-option" data-code="55" data-flag="br" data-ph="11912345678"><img src="https://flagcdn.com/w20/br.png"> +55 Brazil</div>
+                    <div class="country-option" data-code="7" data-flag="ru" data-ph="9123456789"><img src="https://flagcdn.com/w20/ru.png"> +7 Russia</div>
+                    <div class="country-option" data-code="966" data-flag="sa" data-ph="512345678"><img src="https://flagcdn.com/w20/sa.png"> +966 Saudi Arabia</div>
+                    <div class="country-option" data-code="971" data-flag="ae" data-ph="501234567"><img src="https://flagcdn.com/w20/ae.png"> +971 UAE</div>
+                    <div class="country-option" data-code="90" data-flag="tr" data-ph="5321234567"><img src="https://flagcdn.com/w20/tr.png"> +90 Turkey</div>
+                    <div class="country-option" data-code="31" data-flag="nl" data-ph="612345678"><img src="https://flagcdn.com/w20/nl.png"> +31 Netherlands</div>
+                    <div class="country-option" data-code="39" data-flag="it" data-ph="3123456789"><img src="https://flagcdn.com/w20/it.png"> +39 Italy</div>
+                    <div class="country-option" data-code="34" data-flag="es" data-ph="612345678"><img src="https://flagcdn.com/w20/es.png"> +34 Spain</div>
+                    <div class="country-option" data-code="66" data-flag="th" data-ph="812345678"><img src="https://flagcdn.com/w20/th.png"> +66 Thailand</div>
+                    <div class="country-option" data-code="84" data-flag="vn" data-ph="912345678"><img src="https://flagcdn.com/w20/vn.png"> +84 Vietnam</div>
+                </div>
+            </div>
+
+            <div class="input-wrapper">
+                <label>Phone Number</label>
+                <input type="text" id="newSenderNumber" class="input-field" placeholder="Contoh: 81234567890">
+            </div>
+
+            <button id="addSenderBtn" class="execute-btn">
+                <i class="fas fa-paper-plane"></i> GET CODE
+            </button>
+        </div>
+
+        <div class="nodes-card">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px; font-family:'Orbitron'; font-size:0.75rem; color:var(--accent-cyan);">
+                <i class="fas fa-wifi"></i> ACTIVE NODES
+            </div>
+            <div id="sendersList">
+                <p style="text-align:center; color:var(--text-gray); font-size:0.8rem">Memuat data...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- UI LOGIC ---
+        function toggleModal() {
+            document.getElementById('guideModal').classList.toggle('active');
+        }
+
+        const selector = document.getElementById('selectedCountry');
+        const dropdown = document.getElementById('countryDropdown');
+        const numInput = document.getElementById('newSenderNumber');
+        let selectedCode = "62";
+
+        selector.onclick = () => dropdown.classList.toggle('show');
+
+        document.querySelectorAll('.country-option').forEach(option => {
+            option.onclick = function() {
+                selectedCode = this.getAttribute('data-code');
+                const flag = this.getAttribute('data-flag');
+                const ph = this.getAttribute('data-ph');
+                document.getElementById('currentFlag').src = `https://flagcdn.com/w20/${flag}.png`;
+                document.getElementById('currentName').innerText = this.innerText;
+                numInput.placeholder = "Contoh: " + ph;
+                dropdown.classList.remove('show');
+            };
+        });
+
+        // Close dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.closest('.country-selector')) {
+                dropdown.classList.remove('show');
+            }
+        }
+
+        // --- API LOGIC (TIDAK DIHAPUS) ---
+        function showNotification(message, type = 'info') {
+            const n = document.createElement('div');
+            n.className = `notification`;
+            n.style.borderLeftColor = type === 'success' ? '#39ff14' : '#ff2d7d';
+            n.innerHTML = message;
+            document.body.appendChild(n);
+            setTimeout(() => n.remove(), 4000);
+        }
+
+        function initEventStream() {
+            const es = new EventSource('/api/events');
+            es.onmessage = (e) => {
+                const data = JSON.parse(e.data);
+                if(data.type === 'pairing_code') showPairingCodeModal(data);
+                if(data.type === 'success') { 
+                    showNotification(data.message, 'success'); 
+                    loadUserSenders(); 
+                }
+            };
+        }
+
+        function showPairingCodeModal(data) {
+            alert("KODE PAIRING ANDA: " + data.code);
+        }
+
+        function loadUserSenders() {
+            fetch('/api/my-senders').then(r => r.json()).then(data => {
+                const list = document.getElementById('sendersList');
+                if(!data.senders || data.senders.length === 0) {
+                    list.innerHTML = '<p style="text-align:center; color:var(--text-gray); font-size:0.8rem">Tidak ada node aktif.</p>';
+                    return;
+                }
+                list.innerHTML = data.senders.map(s => `
+                    <div class="sender-item">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <div class="sender-status"></div>
+                            <span style="font-family:'Orbitron'; font-size:0.85rem">${s}</span>
+                        </div>
+                        <i class="fas fa-trash" style="color:#ff2d7d; cursor:pointer" onclick="deleteSender('${s}')"></i>
+                    </div>
+                `).join('');
+            });
+        }
+
+        function addSender() {
+            const num = numInput.value.trim();
+            if(!num) return showNotification('Masukkan nomor!', 'error');
+            
+            const fullNumber = selectedCode + num.replace(/\D/g, '');
+            fetch('/api/add-sender', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ number: fullNumber })
+            }).then(r => r.json()).then(d => {
+                if(d.success) showNotification('Request terkirim...', 'success');
+            });
+        }
+
+        function deleteSender(s) {
+            if(confirm('Hapus sender ' + s + '?')) {
+                fetch('/api/delete-sender', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ number: s })
+                }).then(() => loadUserSenders());
+            }
+        }
+
+        document.getElementById('addSenderBtn').onclick = addSender;
+        document.addEventListener('DOMContentLoaded', () => {
+            initEventStream();
+            loadUserSenders();
+        });
+    </script>
+</body>
+</html>

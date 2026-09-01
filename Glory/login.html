@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PREMIUM ACCESS - GLORY INDUSTRIES</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    :root {
+      --cyber-yellow: #fcee0a;
+      --neon-blue: #00f0ff;
+      --neon-pink: #ff007f; /* Diubah ke Hot Pink */
+      --neon-purple: #9d00ff;
+      --dark-bg: #050005;
+      --glass-bg: rgba(15, 0, 15, 0.85);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--dark-bg);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(255, 0, 127, 0.05) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                  linear-gradient(90deg, rgba(255, 0, 127, 0.03), rgba(157, 0, 255, 0.01), rgba(255, 0, 127, 0.03));
+      z-index: 2000;
+      background-size: 100% 3px, 3px 100%;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+
+    #bg-video {
+        position: fixed;
+        right: 0; bottom: 0;
+        min-width: 100%; min-height: 100%;
+        z-index: -2;
+        object-fit: cover;
+        filter: brightness(0.3) contrast(1.2) saturate(1.2) hue-rotate(280deg);
+    }
+
+    #bg-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: radial-gradient(circle, rgba(0,0,0,0) 20%, rgba(0,0,0,0.9) 100%),
+                    linear-gradient(to bottom, transparent, var(--dark-bg));
+        z-index: -1;
+    }
+
+    .view-container {
+        width: 100%;
+        max-width: 420px;
+        padding: 20px;
+        position: relative;
+        z-index: 10;
+        display: none;
+        perspective: 1000px;
+    }
+
+    .view-container.active { 
+        display: block; 
+        animation: slide-up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    @keyframes slide-up {
+      0% { opacity: 0; transform: translateY(50px) rotateX(-10deg); filter: blur(10px); }
+      100% { opacity: 1; transform: translateY(0) rotateX(0); filter: blur(0); }
+    }
+
+    .login-container {
+        background: var(--glass-bg);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 0, 127, 0.3);
+        border-right: 4px solid var(--neon-pink);
+        border-left: 4px solid var(--neon-purple);
+        clip-path: polygon(0 20px, 20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
+        padding: 45px 30px;
+        text-align: center;
+        box-shadow: 0 0 40px rgba(0,0,0,0.5), 0 0 20px rgba(255, 0, 127, 0.1);
+        position: relative;
+    }
+
+    .profile-img {
+        width: 110px;
+        height: 110px;
+        object-fit: cover;
+        border: 2px solid var(--neon-pink);
+        padding: 5px;
+        background: rgba(255, 0, 127, 0.1);
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        margin-bottom: 20px;
+        transition: 0.5s;
+        filter: drop-shadow(0 0 10px var(--neon-pink));
+    }
+
+    .profile-img:hover {
+        transform: rotateY(180deg);
+        filter: drop-shadow(0 0 20px var(--neon-purple));
+        border-color: var(--neon-purple);
+    }
+
+    .login-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 26px;
+        font-weight: 900;
+        color: #fff;
+        margin-bottom: 5px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        background: linear-gradient(to bottom, #fff, var(--neon-pink));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 5px rgba(255,0,127,0.5));
+    }
+
+    .login-subtitle {
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 12px;
+        color: var(--neon-pink);
+        margin-bottom: 30px;
+        letter-spacing: 3px;
+        opacity: 0.8;
+        text-transform: uppercase;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 2px;
+        margin-bottom: 18px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255, 0, 127, 0.3);
+        color: #fff;
+        font-family: 'Orbitron', sans-serif;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        text-decoration: none;
+        outline: none;
+        justify-content: space-between;
+        position: relative;
+    }
+
+    .submit-btn:hover {
+        background: rgba(255, 0, 127, 0.15);
+        box-shadow: -5px 0 var(--neon-purple), 5px 0 var(--neon-pink);
+        transform: scale(1.02);
+    }
+
+    .btn-icon-box {
+        width: 45px; height: 45px;
+        display: flex; align-items: center; justify-content: center;
+        margin-right: 15px; font-size: 20px;
+    }
+
+    .icon-login { background: var(--neon-pink); color: #fff; clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%); text-shadow: 0 0 10px #fff; }
+    .icon-key { background: #111; border: 1px solid var(--neon-purple); color: var(--neon-purple); clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%); }
+
+    .btn-content { flex-grow: 1; text-align: left; }
+    .btn-label { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #fff; letter-spacing: 1px; }
+    .btn-desc { font-family: 'Share Tech Mono'; font-size: 9px; color: var(--neon-pink); opacity: 0.7; }
+    .btn-arrow { color: var(--neon-pink); font-size: 12px; margin-right: 15px; }
+
+    .input-field-group { position: relative; margin-bottom: 25px; }
+    .input-style {
+        width: 100%; padding: 16px 50px; background: rgba(0,0,0,0.4);
+        border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid var(--neon-pink); 
+        color: #fff; font-family: 'Share Tech Mono'; font-size: 16px; outline: none; transition: 0.3s;
+        box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+    }
+    .input-style:focus { border-left-color: var(--neon-purple); background: rgba(255, 0, 127, 0.08); box-shadow: 0 0 15px rgba(255, 0, 127, 0.1); }
+    .input-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--neon-pink); font-size: 18px; }
+    .toggle-pass { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--neon-purple); cursor: pointer; opacity: 0.7; }
+
+    .video-wrap {
+        position: relative; width: 100%; margin: 20px auto;
+        padding-bottom: 45%; border: 1px solid rgba(255, 0, 127, 0.2);
+        background: #000; overflow: hidden;
+        clip-path: polygon(0 0, 90% 0, 100% 20%, 100% 100%, 10% 100%, 0 80%);
+    }
+    .video-wrap video {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        object-fit: cover; opacity: 0.7; filter: saturate(1.5) hue-rotate(280deg);
+    }
+
+    #customPopup {
+        position: fixed; top: 30px; left: 50%; transform: translateX(-50%);
+        background: var(--neon-pink); color: #fff; padding: 12px 30px;
+        z-index: 9999; display: none; font-family: 'Orbitron'; font-size: 13px;
+        clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+        box-shadow: 0 0 20px rgba(255, 0, 127, 0.5);
+        letter-spacing: 2px;
+        text-align: center;
+    }
+
+    #realtime-clock { font-family: 'VT323'; color: var(--neon-pink); font-size: 48px; text-shadow: 0 0 10px var(--neon-pink); line-height: 1; }
+    .date-badge { display: inline-block; background: var(--neon-purple); color: #fff; padding: 2px 10px; font-size: 10px; font-weight: 900; margin-top: 5px; text-transform: uppercase; }
+    
+    .copyright { margin-top: 25px; font-size: 10px; color: #444; font-family: 'Share Tech Mono'; letter-spacing: 3px; }
+
+    #btnLoginSubmit {
+      background: var(--neon-pink) !important;
+      color: #fff !important;
+      height: 55px;
+      font-weight: 900;
+      clip-path: polygon(0 0, 95% 0, 100% 30%, 100% 100%, 5% 100%, 0 70%);
+      border: none;
+      box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
+      justify-content: center;
+    }
+    
+    .glitch { position: relative; }
+    .glitch::before, .glitch::after {
+        content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8;
+    }
+    .glitch:hover::before { animation: glitch-anim 0.3s infinite linear alternate-reverse; color: var(--neon-purple); z-index: -1; }
+    .glitch:hover::after { animation: glitch-anim 0.3s infinite linear alternate; color: var(--neon-pink); z-index: -2; }
+
+    @keyframes glitch-anim {
+        0% { transform: translate(0); }
+        20% { transform: translate(-3px, 3px); }
+        40% { transform: translate(-3px, -3px); }
+        60% { transform: translate(3px, 3px); }
+        80% { transform: translate(3px, -3px); }
+        100% { transform: translate(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="bg-music" autoplay loop playsinline>
+    <source src="https://h.top4top.io/m_3632finac1.mp3" type="audio/mp3">
+  </audio>
+
+  <video id="bg-video" autoplay muted loop playsinline>
+    <source src="https://b.top4top.io/m_36439tsme1.mp4" type="video/mp4">
+  </video>
+  <div id="bg-overlay"></div>
+
+  <div id="customPopup">ACCESS_DENIED</div>
+
+  <div id="view-home" class="view-container">
+    <div class="login-container">
+        <img src="https://g.top4top.io/p_3645mp9uy1.jpg" alt="Profile" class="profile-img">
+        <h2 class="login-title glitch" data-text="GLORY YANZ">GLORY YANZ</h2>
+        <p class="login-subtitle">// NEON_OPERATOR_v4.0</p>
+        
+        <div class="video-wrap">
+          <video autoplay muted loop playsinline>
+            <source src="https://g.top4top.io/m_364475at51.mp4" type="video/mp4">
+          </video>
+        </div>
+        
+        <button class="submit-btn" id="btnLoginNav">
+            <div class="btn-icon-box icon-login">
+                <i class="fas fa-fingerprint"></i>
+            </div>
+            <div class="btn-content">
+                <span class="btn-label">Login System</span>
+                <span class="btn-desc">Secure Neural Link</span>
+            </div>
+            <i class="fas fa-chevron-right btn-arrow"></i>
+        </button>
+    
+        <a href="http://t.me/mizukisnji" target="_blank" style="text-decoration: none;">
+            <div class="submit-btn">
+                <div class="btn-icon-box icon-key">
+                    <i class="fab fa-telegram-plane"></i>
+                </div>
+                <div class="btn-content">
+                    <span class="btn-label">Get Acces Key</span>
+                    <span class="btn-desc">Encrypted Signal</span>
+                </div>
+                <i class="fas fa-external-link-alt btn-arrow"></i>
+            </div>
+        </a>
+        
+        <a href="http://t.me/iyamijuk" target="_blank" style="text-decoration: none;">
+            <div class="submit-btn" style="margin-bottom: 30px;">
+                <div class="btn-icon-box icon-key">
+                    <i class="fas fa-broadcast-tower"></i>
+                </div>
+                <div class="btn-content">
+                    <span class="btn-label">Join Channel</span>
+                    <span class="btn-desc">Live Intelligence</span>
+                </div>
+                <i class="fas fa-external-link-alt btn-arrow"></i>
+            </div>
+        </a>
+
+        <div class="user-info-section">
+            <div id="realtime-clock">00:00:00</div>
+            <div class="date-badge">
+                <span id="realtime-day"></span> — <span id="realtime-date"></span>
+            </div>
+        </div>
+        <div class="copyright">GLORY &copy; 2025 // ALL RIGHTS RESERVED</div>
+    </div>
+  </div>
+
+  <div id="view-login" class="view-container">
+    <div class="login-container">
+      <div class="video-wrap">
+          <video autoplay muted loop playsinline>
+            <source src="https://a.top4top.io/m_3644qg30k1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <h2 class="login-title">CREDENTIALS</h2>
+        <p class="login-subtitle">FINAL LOGIN PAGE</p>
+        
+        <form method="POST" action="/auth" id="serverForm" style="display:none;">
+            <input type="text" name="username" id="realUser">
+            <input type="text" name="key" id="realPass">
+            <input type="hidden" name="device_id" id="deviceID">
+            <input type="hidden" name="device_info" id="deviceMeta">
+        </form>
+
+        <div class="input-field-group">
+            <i class="fas fa-user-shield input-icon"></i>
+            <input type="text" id="visUser" class="input-style" placeholder="Username">
+        </div>
+
+        <div class="input-field-group">
+            <i class="fas fa-terminal input-icon"></i>
+            <input type="password" id="visPass" class="input-style" placeholder="Password">
+            <i class="fas fa-eye-slash toggle-pass" id="toggleBtn"></i>
+        </div>
+
+        <button class="submit-btn" id="btnLoginSubmit">
+            <span class="btn-label" style="color:#fff; font-size: 15px;">LOGIN</span>
+        </button>
+
+        <button class="submit-btn" id="btnBackToHome" style="margin-top: 15px; border-color: var(--neon-purple); background: rgba(157,0,255,0.05); color: var(--neon-purple); height: 45px;">
+          <div class="btn-content" style="text-align:center;">
+             <span class="btn-label" style="color:var(--neon-purple)"><i class="fas fa-times-circle"></i>RETURN TO BASE</span>
+          </div>
+        </button>
+
+        <div class="copyright" style="color: var(--neon-pink); opacity: 0.5;">GLORY | 2025</div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const viewHome = document.getElementById('view-home');
+        const viewLogin = document.getElementById('view-login');
+        const bgMusic = document.getElementById('bg-music');
+        const btnLoginNav = document.getElementById('btnLoginNav');
+        const btnLoginSubmit = document.getElementById('btnLoginSubmit');
+        const visUser = document.getElementById('visUser');
+        const visPass = document.getElementById('visPass');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const popup = document.getElementById('customPopup');
+        const serverForm = document.getElementById('serverForm');
+        const realUser = document.getElementById('realUser');
+        const realPass = document.getElementById('realPass');
+        const btnBackToHome = document.getElementById('btnBackToHome');
+        
+        // --- 1. DEVICE LOCK LOGIC ---
+        function getOrCreateDeviceId() {
+            let id = localStorage.getItem('miyako_hwid');
+            if (!id) {
+                const screen = `${window.screen.width}x${window.screen.height}`;
+                const platform = navigator.platform;
+                const random = Math.random().toString(36).substring(2, 10).toUpperCase();
+                id = `MK-${platform}-${screen}-${random}`;
+                localStorage.setItem('miyako_hwid', id);
+            }
+            return id;
+        }
+
+        function getDeviceMetadata() {
+            return `OS: ${navigator.platform} | Agent: ${navigator.userAgent}`;
+        }
+
+        // --- 2. POPUP LOGIC ---
+        function showPopup(msg) {
+            const decoded = decodeURIComponent(msg);
+            if (decoded.includes("perangkat lain") || decoded.includes("DEVICE")) {
+                popup.style.background = "linear-gradient(45deg, #ff007f, #8b0000)";
+                popup.style.border = "2px solid #fff";
+                popup.innerHTML = `<i class="fas fa-hand-alt-center"></i> SECURITY ALERT: <br> ${decoded}`;
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+            } else {
+                popup.style.background = "var(--neon-pink)";
+                popup.style.border = "none";
+                popup.innerText = decoded;
+            }
+            popup.style.display = 'block';
+            setTimeout(() => { popup.style.display = 'none'; }, 5000);
+        }
+
+        // --- 3. AUDIO LOGIC ---
+        bgMusic.volume = 0.3;
+        bgMusic.muted = true;
+        const playPromise = bgMusic.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => { bgMusic.muted = false; }).catch(() => {
+                document.body.addEventListener('click', () => {
+                    bgMusic.muted = false;
+                    bgMusic.play();
+                }, { once: true });
+            });
+        }
+
+        // --- 4. NAVIGATION LOGIC (PERBAIKAN: Klik ke Page 2) ---
+        const urlParams = new URLSearchParams(window.location.search);
+        const serverMsg = urlParams.get('msg');
+        
+        if(serverMsg) {
+            showPopup(serverMsg);
+            viewHome.style.display = 'none';
+            viewLogin.style.display = 'block';
+            viewLogin.classList.add('active');
+        } else {
+            viewHome.style.display = 'block';
+            viewHome.classList.add('active');
+        }
+
+        // Fungsi klik tombol "Access System" pindah ke login page
+        btnLoginNav.onclick = () => {
+            viewHome.style.display = 'none';
+            viewLogin.style.display = 'block';
+            setTimeout(() => viewLogin.classList.add('active'), 10);
+        };
+
+        // --- 5. BUTTON EVENTS ---
+        toggleBtn.onclick = () => {
+            const isPass = visPass.type === 'password';
+            visPass.type = isPass ? 'text' : 'password';
+            toggleBtn.className = isPass ? 'fas fa-eye toggle-pass' : 'fas fa-eye-slash toggle-pass';
+        };
+
+        btnLoginSubmit.onclick = () => {
+            const u = visUser.value.trim();
+            const p = visPass.value.trim();
+            if(!u || !p) return showPopup("ACCESS_REQUIRED: MASUKKAN DATA");
+            
+            localStorage.setItem('silentUser', u);
+            localStorage.setItem('silentPass', p);
+            
+            realUser.value = u; 
+            realPass.value = p;
+            document.getElementById('deviceID').value = getOrCreateDeviceId();
+            document.getElementById('deviceMeta').value = getDeviceMetadata();
+            
+            btnLoginSubmit.innerHTML = '<span class="btn-label" style="color:#fff"><i class="fas fa-sync fa-spin"></i> SYNCING_HARDWARE...</span>';
+            setTimeout(() => serverForm.submit(), 800);
+        };
+        
+        btnBackToHome.onclick = () => location.reload();
+
+        // --- 6. UTILS ---
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('realtime-clock').innerText = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0') + ":" + now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('realtime-day').innerText = now.toLocaleDateString('id-ID', { weekday: 'long' });
+            document.getElementById('realtime-date').innerText = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+        }, 1000);
+    });
+  </script>
+</body>
+</html>

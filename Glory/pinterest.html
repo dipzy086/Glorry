@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PINTEREST DOWNLOAD v4.0 - X EDITION</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --neon-pink: #ff006e;
+            --hot-pink: #ff00ab;
+            --deep-purple: #1a001a;
+            --bg-dark: #080108;
+            --panel-bg: rgba(20, 0, 15, 0.85);
+            --font-mono: 'Share Tech Mono', monospace;
+            --border-glow: rgba(255, 0, 110, 0.5);
+            --luxe-gradient: linear-gradient(135deg, #ff006e 0%, #8e00ff 100%);
+        }
+
+        /* --- Global Reset & Luxury Background --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 50% 50%, #2a0020 0%, #080108 100%);
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- Floating Particles Background --- */
+        .particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* --- Luxury Scanlines --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(255, 0, 110, 0.05) 50%, rgba(0, 0, 0, 0.2) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* --- Animated Glowing Border Card --- */
+        .cyber-card {
+            width: 90%;
+            max-width: 450px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 0, 110, 0.3);
+            box-shadow: 0 0 40px rgba(255, 0, 110, 0.2), inset 0 0 20px rgba(255, 0, 110, 0.1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            margin-bottom: 100px;
+            z-index: 10;
+        }
+
+        /* Luxury Accent line at top */
+        .cyber-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 3px;
+            background: var(--luxe-gradient);
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        /* --- Top Image Header --- */
+        .image-header {
+            width: 100%;
+            height: 160px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255, 0, 110, 0.5);
+        }
+
+        .image-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(1.5) brightness(0.6) hue-rotate(310deg);
+            transition: 0.5s;
+        }
+        
+        .cyber-card:hover .image-header img {
+            transform: scale(1.1);
+            filter: saturate(1.8) brightness(0.8) hue-rotate(310deg);
+        }
+
+        .image-header::after {
+            content: "✦ LUXURY_EXTRACTOR_V3";
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            font-family: var(--font-mono);
+            font-size: 9px;
+            background: var(--luxe-gradient);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        /* --- Content Body --- */
+        .content { padding: 25px; }
+
+        .title-block {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            background: var(--luxe-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 8px rgba(255, 0, 110, 0.5));
+        }
+
+        /* --- Input Styles --- */
+        .field-group { margin-bottom: 20px; }
+
+        .label-mono {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            margin-bottom: 8px;
+            display: block;
+            color: var(--neon-pink);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 0, 110, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-family: var(--font-mono);
+            outline: none;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input:focus {
+            border-color: var(--neon-pink);
+            background: rgba(255, 0, 110, 0.05);
+            box-shadow: 0 0 15px rgba(255, 0, 110, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* --- Buttons --- */
+        .btn-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        button {
+            padding: 14px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.4s;
+            border-radius: 8px;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            background: var(--luxe-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 0, 110, 0.3);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover::before { left: 100%; }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--neon-pink);
+        }
+
+        .btn-alt {
+            background: transparent;
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-pink);
+            box-shadow: none;
+        }
+
+        .btn-alt:hover {
+            background: rgba(255, 0, 110, 0.1);
+            color: #fff;
+        }
+
+        /* --- Console Log --- */
+        .console {
+            background: rgba(10, 0, 5, 0.9);
+            padding: 15px;
+            height: 100px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            overflow-y: auto;
+            border-top: 1px solid rgba(255, 0, 110, 0.3);
+        }
+
+        .log-line { 
+            margin-bottom: 5px; 
+            border-left: 2px solid var(--neon-pink); 
+            padding-left: 10px;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+        
+        .success { border-color: #ff00ff; color: #ff00ff; text-shadow: 0 0 5px #ff00ff; }
+        .error { border-color: #ff4d4d; color: #ff4d4d; font-weight: bold; }
+
+        /* --- Bottom Navigation --- */
+        .nav {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            height: 75px;
+            background: rgba(15, 0, 10, 0.98);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 0, 110, 0.3);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1500;
+        }
+
+        .nav-item-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: rgba(255, 255, 255, 0.3);
+            text-decoration: none;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            flex: 1;
+        }
+
+        .nav-item-bottom i { font-size: 20px; }
+
+        .nav-item-bottom.active {
+            color: var(--neon-pink);
+            transform: translateY(-5px);
+        }
+
+        .nav-item-bottom.active i {
+            filter: drop-shadow(0 0 8px var(--neon-pink));
+        }
+
+        .nav-item-bottom span {
+            font-size: 9px;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Custom Scrollbar */
+        .console::-webkit-scrollbar { width: 4px; }
+        .console::-webkit-scrollbar-thumb { background: var(--neon-pink); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <canvas id="particles" class="particles"></canvas>
+
+    <div class="cyber-card">
+        <div class="image-header">
+            <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=1000" alt="Cyber City Luxe">
+        </div>
+
+        <div class="content">
+            <div class="title-block">
+                <h1>Pin Extractor</h1>
+                <p style="font-size: 9px; letter-spacing: 4px; color: var(--neon-pink); font-weight: bold;">X NEURAL LINK</p>
+            </div>
+
+            <div class="field-group">
+                <span class="label-mono">> ACCESS TARGET DATA</span>
+                <input type="text" id="pinInput" placeholder="PASTE PINTEREST URL..." autocomplete="off">
+            </div>
+
+            <div class="btn-container">
+                <button onclick="runProcess()">EXTRACT ASSET</button>
+                <button class="btn-alt" onclick="clearAll()">FLUSH CACHE</button>
+            </div>
+        </div>
+
+        <div class="console" id="console">
+            <div class="log-line">> CORE_SYSTEM: ONLINE</div>
+            <div class="log-line">> PREMIUM_STATUS: ACTIVE</div>
+        </div>
+    </div>
+
+    <nav class="nav">
+        <a href="/dashboard" class="nav-item-bottom">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="/tools" class="nav-item-bottom active">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            <span>Tools</span>
+        </a>
+        <a href="/anime" class="nav-item-bottom">
+            <i class="fa-solid fa-film"></i>
+            <span>Anime</span>
+        </a>
+    </nav>
+
+    <script>
+        // --- Luxury Particles Script ---
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initParticles() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            for(let i = 0; i < 40; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2,
+                    speed: Math.random() * 0.5 + 0.2
+                });
+            }
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ff006e';
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                p.y -= p.speed;
+                if(p.y < 0) p.y = canvas.height;
+            });
+            requestAnimationFrame(drawParticles);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        initParticles();
+        drawParticles();
+
+        // --- Original Logic (Preserved) ---
+        const consoleEl = document.getElementById('console');
+        const inputEl = document.getElementById('pinInput');
+
+        function log(msg, type = '') {
+            const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
+            const line = document.createElement('div');
+            line.className = `log-line ${type}`;
+            line.innerHTML = `[${time}] ${msg}`;
+            consoleEl.prepend(line);
+        }
+
+        function runProcess() {
+            const val = inputEl.value;
+            if(!val) {
+                log('ERROR: TARGET_NULL', 'error');
+                return;
+            }
+
+            log(`AUTHENTICATING_SCRAPER...`);
+            
+            setTimeout(() => log('BYPASSING_GATEWAY...'), 600);
+            setTimeout(() => log('HD_ASSET_ACQUIRED', 'success'), 1400);
+            setTimeout(() => {
+                log('EXTRACTION_SUCCESSFUL', 'success');
+                alert("Download Dimulai!");
+            }, 2200);
+        }
+
+        function clearAll() {
+            inputEl.value = '';
+            consoleEl.innerHTML = '<div class="log-line">> MEMORY_WIPED. STANDBY.</div>';
+            log('SYSTEM_PURGE_COMPLETE', 'success');
+        }
+    </script>
+</body>
+</html>

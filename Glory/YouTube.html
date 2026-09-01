@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glory Music - Elite Luxury Edition</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #007AFF;
+            --gold: #D4AF37;
+            --bg-dark: #020202;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .page-container {
+            max-width: 500px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        /* --- VIDEO HERO SECTION --- */
+        .video-hero {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            margin-top: 25px;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            border: 1px solid var(--glass-border);
+            background: #000;
+        }
+
+        .video-hero video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sound-toggle-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 38px;
+            height: 38px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            transition: all 0.3s ease;
+        }
+
+        .sound-toggle-btn:active { transform: scale(0.9); }
+
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, var(--bg-dark));
+            pointer-events: none;
+        }
+
+        /* --- HEADER SECTION --- */
+        .lux-header-card {
+            margin-top: -35px; 
+            padding: 25px;
+            border-radius: 30px;
+            background: rgba(20, 20, 20, 0.75);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .lux-icon-box {
+            background: linear-gradient(135deg, #1d1d1f 0%, #000 100%);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 18px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+        }
+
+        .role-badge {
+            background: linear-gradient(90deg, #D4AF37, #F9E29C);
+            color: #000;
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+        }
+
+        /* --- SEARCH SECTION --- */
+        .search-input-wrapper {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            padding: 8px 8px 8px 22px;
+            border-radius: 100px;
+            margin-bottom: 30px;
+            transition: 0.3s;
+            align-items: center;
+        }
+
+        .search-input-wrapper:focus-within {
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .search-input {
+            flex: 1; background: transparent; border: none;
+            color: white; font-size: 16px; outline: none;
+        }
+
+        .search-action-btn {
+            background: #fff; color: #000;
+            width: 42px; height: 42px; border-radius: 50%;
+            border: none; cursor: pointer; transition: 0.3s;
+        }
+
+        .search-action-btn:active { transform: scale(0.9); }
+
+        /* --- RESULT CARDS --- */
+        #ytResultsArea { padding-bottom: 140px; }
+
+        .yt-card {
+            background: var(--card-bg);
+            border-radius: 28px;
+            margin-bottom: 20px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
+        }
+
+        .yt-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--gold);
+        }
+
+        .yt-banner { width: 100%; height: 210px; object-fit: cover; }
+        
+        .yt-info { padding: 20px; }
+        .yt-title { font-weight: 600; font-size: 16px; margin-bottom: 8px; line-height: 1.4; }
+        .yt-meta { color: #86868b; font-size: 13px; font-weight: 500; display: flex; gap: 10px; }
+
+        /* --- FLOATING PLAYER --- */
+        .floating-audio-player {
+            position: fixed; bottom: 30px; left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 460px;
+            height: 85px;
+            background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 100px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            display: none; align-items: center; padding: 0 12px; gap: 15px;
+            z-index: 9999;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .player-thumb { 
+            width: 60px; height: 60px; border-radius: 50%; 
+            border: 2px solid var(--gold); object-fit: cover;
+        }
+
+        .p-btn-main {
+            background: var(--gold); color: black;
+            width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; border: none; cursor: pointer;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes slideUp { from { opacity: 0; transform: translate(-50%, 50px); } to { opacity: 1; transform: translate(-50%, 0); } }
+        .floating-audio-player { animation: slideUp 0.5s ease forwards; }
+
+    </style>
+</head>
+<body>
+
+<div class="page-container">
+    
+    <div class="video-hero">
+        <video id="heroVideo" autoplay muted loop playsinline>
+            <source src="https://g.top4top.io/m_3647ogewv1.mp4" type="video/mp4">
+        </video>
+        <button class="sound-toggle-btn" onclick="toggleHeroSound()">
+            <i id="soundIcon" class="fas fa-volume-mute"></i>
+        </button>
+        <div class="video-overlay"></div>
+    </div>
+
+    <div class="lux-header-card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <div class="lux-icon-box" style="width:55px; height:55px; font-size:24px;">
+                    <i class="fab fa-youtube"></i>
+                </div>
+                <div>
+                    <h2 style="font-size:10px; color:var(--gold); margin:0; text-transform:uppercase; letter-spacing:3px; font-weight:800;">Glory Music</h2>
+                    <p style="font-size:20px; color:#fff; font-weight:700; margin:0;">Guest Portal</p>
+                </div>
+            </div>
+            <span class="role-badge">ELITE VIP</span>
+        </div>
+    </div>
+    
+    <div class="search-input-wrapper">
+        <input type="text" id="ytSearchInput" class="search-input" placeholder="Search for music...">
+        <button class="search-action-btn" id="btnYtSearchAction"><i class="fas fa-search"></i></button>
+    </div>
+
+    <div id="ytLoading" style="text-align:center; display:none; margin-bottom: 30px;">
+        <i class="fas fa-circle-notch fa-spin" style="font-size:30px; color:var(--gold);"></i>
+    </div>
+
+    <div id="ytResultsArea"></div>
+    
+    <audio id="globalAudioPlayer" style="display:none;"></audio>
+    
+    <div id="floatingPlayer" class="floating-audio-player">
+        <img id="fpThumb" src="" class="player-thumb">
+        <div style="flex:1; overflow:hidden;">
+            <div id="fpTitle" style="font-weight:700; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#fff;">Song Title</div>
+            <div id="fpStatus" style="font-size:11px; color:var(--gold); font-weight:600; text-transform:uppercase;">Playing Now</div>
+        </div>
+        <button class="p-btn-main" id="fpPlayBtn" onclick="toggleAudio()"><i class="fas fa-pause"></i></button>
+        <button onclick="stopAudio()" style="background:none; border:none; color:#ff3b30; margin-right: 15px; cursor:pointer; font-size: 18px;"><i class="fas fa-times-circle"></i></button>
+    </div>
+</div>
+
+<script>
+    // --- VIDEO HERO LOGIC ---
+    function toggleHeroSound() {
+        const video = document.getElementById('heroVideo');
+        const icon = document.getElementById('soundIcon');
+        
+        if (video.muted) {
+            video.muted = false;
+            icon.className = 'fas fa-volume-up';
+            icon.style.color = '#D4AF37';
+        } else {
+            video.muted = true;
+            icon.className = 'fas fa-volume-mute';
+            icon.style.color = '#fff';
+        }
+    }
+
+    // --- SEARCH & API LOGIC ---
+    const btnSearch = document.getElementById('btnYtSearchAction');
+    const inputSearch = document.getElementById('ytSearchInput');
+    const resultsArea = document.getElementById('ytResultsArea');
+    const loading = document.getElementById('ytLoading');
+    const globalAudio = document.getElementById('globalAudioPlayer');
+    const floatPlayer = document.getElementById('floatingPlayer');
+    const playBtn = document.getElementById('fpPlayBtn');
+
+    btnSearch.addEventListener('click', async () => {
+        const query = inputSearch.value.trim();
+        if(!query) return;
+
+        loading.style.display = 'block';
+        resultsArea.innerHTML = '';
+
+        const apiEndpoints = [
+            `https://api.siputzx.my.id/api/s/youtube?query=${encodeURIComponent(query)}`,
+            `https://api.nvidiabotz.xyz/search/youtube?q=${encodeURIComponent(query)}`
+        ];
+
+        let foundData = null;
+        for (let endpoint of apiEndpoints) {
+            try {
+                const res = await fetch(endpoint);
+                const data = await res.json();
+                const results = data.result || data.data || data;
+                if (Array.isArray(results) && results.length > 0) {
+                    foundData = results;
+                    break; 
+                }
+            } catch (e) { console.warn("API Fail:", endpoint); continue; }
+        }
+
+        loading.style.display = 'none';
+
+        if (foundData) {
+            foundData.forEach((item, index) => {
+                const title = item.title || item.videoTitle || "Unknown Track";
+                const url = item.url || item.videoUrl || item.link || "";
+                const thumb = item.thumbnail || item.image || item.thumb || "";
+                const dur = item.duration || item.timestamp || "-";
+
+                if(url) {
+                    const card = document.createElement('div');
+                    card.className = 'yt-card';
+                    card.style.animation = `slideUp 0.5s ease forwards ${index * 0.1}s`;
+                    card.onclick = () => playYouTubeAudio(url, title, thumb);
+                    card.innerHTML = `
+                        <img src="${thumb}" class="yt-banner">
+                        <div class="yt-info">
+                            <div class="yt-title">${title}</div>
+                            <div class="yt-meta">
+                                <span><i class="far fa-clock"></i> ${dur}</span>
+                                <span>•</span>
+                                <span>Premium Audio</span>
+                            </div>
+                        </div>
+                    `;
+                    resultsArea.appendChild(card);
+                }
+            });
+        }
+    });
+
+    // --- PLAYER LOGIC ---
+    window.playYouTubeAudio = async (url, title, thumb) => {
+        // Auto-mute hero video when music starts
+        document.getElementById('heroVideo').muted = true;
+        document.getElementById('soundIcon').className = 'fas fa-volume-mute';
+        document.getElementById('soundIcon').style.color = '#fff';
+
+        floatPlayer.style.display = 'flex';
+        document.getElementById('fpThumb').src = thumb;
+        document.getElementById('fpTitle').innerText = title;
+        document.getElementById('fpStatus').innerText = "Buffering...";
+        playBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
+
+        const downloadEndpoints = [
+            `https://restapi-v2.simplebot.my.id/download/ytmp3?url=${encodeURIComponent(url)}`,
+            `https://api.azz.biz.id/download/ytmp3?url=${encodeURIComponent(url)}`
+        ];
+
+        let audioSrc = '';
+        for (let endpoint of downloadEndpoints) {
+            try {
+                const res = await fetch(endpoint);
+                const data = await res.json();
+                const dl = data.data?.download || data.result?.download?.url || data.result?.url || data.url || data.download;
+                if(dl) { audioSrc = dl; break; }
+            } catch (e) { continue; }
+        }
+
+        if(audioSrc) {
+            globalAudio.src = audioSrc;
+            globalAudio.play();
+            document.getElementById('fpStatus').innerText = "Playing Now";
+            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        } else {
+            document.getElementById('fpStatus').innerText = "Download Error";
+            playBtn.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
+        }
+    };
+
+    function toggleAudio() {
+        if(globalAudio.paused) {
+            globalAudio.play();
+            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            document.getElementById('fpStatus').innerText = "Playing Now";
+        } else {
+            globalAudio.pause();
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            document.getElementById('fpStatus').innerText = "Paused";
+        }
+    }
+
+    window.stopAudio = () => {
+        globalAudio.pause();
+        globalAudio.src = "";
+        floatPlayer.style.display = 'none';
+    };
+</script>
+
+</body>
+</html>

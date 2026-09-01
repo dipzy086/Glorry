@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Downloader Ultra Luxury</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #007AFF; 
+            --gold: linear-gradient(135deg, #FFD700, #B8860B);
+            --gold-glow: rgba(255, 215, 0, 0.3);
+            --bg-body: #020202; 
+            --glass-bg: rgba(18, 18, 18, 0.8); 
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-sub: #A1A1A6;
+            --accent-red: #FF3B30;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 122, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 40%);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Container Mewah */
+        .page-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: var(--glass-bg);
+            border-radius: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            animation: containerEntrance 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        @keyframes containerEntrance {
+            from { opacity: 0; transform: scale(0.9) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Video Header */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .header-video {
+            width: 100%;
+            display: block;
+            filter: brightness(0.8) contrast(1.1);
+        }
+
+        .sound-toggle {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: #FFD700;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+        }
+
+        .sound-toggle:hover {
+            background: var(--gold);
+            color: #000;
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        /* Header Card Section */
+        .lux-header-card {
+            padding: 30px 25px;
+            background: linear-gradient(to bottom, rgba(255, 215, 0, 0.05), transparent);
+        }
+
+        .lux-head-custom-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lux-left-info { display: flex; gap: 18px; align-items: center; }
+
+        .lux-icon-box {
+            background: var(--gold);
+            color: #000;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px var(--gold-glow);
+            font-size: 20px;
+        }
+
+        .welcome-text-anim {
+            font-size: 11px;
+            color: #FFD700;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .role-badge {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 255, 255, 0.05));
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #FFD700;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Input Area */
+        .input-section { padding: 0 30px 30px 30px; }
+
+        .dark-input-box {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            color: #fff;
+            box-sizing: border-box;
+            border-radius: 22px;
+            outline: none;
+            font-size: 14px;
+            margin-bottom: 20px;
+            transition: all 0.4s;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .dark-input-box:focus {
+            border-color: #FFD700;
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+        }
+
+        /* Premium Buttons */
+        .yoshi-btn {
+            width: 100%;
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 20px;
+            border-radius: 22px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.4s;
+            box-shadow: 0 15px 30px rgba(184, 134, 11, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .yoshi-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(184, 134, 11, 0.4);
+            filter: brightness(1.1);
+        }
+
+        /* Back Home Button */
+        .back-home-btn {
+            width: 100%;
+            background: transparent;
+            color: var(--text-sub);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .back-home-btn:hover {
+            color: #fff;
+            border-color: #fff;
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* Result Area */
+        .tt-result-card { 
+            margin-top: 30px; 
+            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%); 
+            padding: 25px; 
+            border-radius: 30px; 
+            display: none; 
+            text-align: center; 
+            border: 1px solid var(--border-color);
+        }
+
+        .tt-thumb { 
+            width: 100%; 
+            border-radius: 25px; 
+            margin-bottom: 20px; 
+            border: 1px solid rgba(255,215,0,0.2);
+        }
+
+        .tt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        
+        .tt-btn { 
+            background: rgba(255,255,255,0.05); 
+            padding: 16px; 
+            border-radius: 18px; 
+            color: #fff; 
+            text-decoration: none; 
+            font-size: 12px; 
+            font-weight: 700; 
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tt-btn:hover { background: rgba(255,255,255,0.12); border-color: #FFD700; }
+        
+        .tt-btn.mp3 { 
+            background: linear-gradient(135deg, #FF3B30, #8B0000);
+            border: none;
+        }
+
+        /* Popup Luxury */
+        .popup-cool { 
+            position: fixed; top: 50%; left: 50%; 
+            transform: translate(-50%, -50%); 
+            background: #111; 
+            padding: 35px; border-radius: 35px; text-align: center; 
+            z-index: 9999; display: none; width: 320px; 
+            border: 1px solid #FFD700;
+            box-shadow: 0 0 50px rgba(0,0,0,1);
+        }
+
+        #ttLoading {
+            margin-top: 25px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #FFD700;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="page-tiktok" class="page-container">
+        <div class="video-wrapper">
+            <button class="sound-toggle" id="btnToggleSound">
+                <i id="soundIcon" class="fas fa-volume-mute"></i>
+            </button>
+            <video id="headerVideo" class="header-video" autoplay loop muted playsinline>
+                <source src="https://a.top4top.io/m_3644qg30k1.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <div class="lux-header-card">
+            <div class="lux-head-custom-flex">
+                <div class="lux-left-info">
+                    <div class="lux-icon-box">
+                        <i class="fab fa-tiktok"></i>
+                    </div>
+                    <div class="lux-head-text">
+                        <div class="welcome-text-anim">Exclusive Access</div>
+                        <p style="font-size:20px; font-weight:800; margin:0; letter-spacing:-0.5px;">Elite Guest</p>
+                    </div>
+                </div>
+                <div class="role-badge">DIAMOND VIP</div>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <input type="text" id="ttUrlInput" class="dark-input-box" placeholder="Paste your TikTok link here...">
+            
+            <button class="yoshi-btn" id="btnTtDownload">
+                <i class="fas fa-crown"></i> DOWNLOAD NOW
+            </button>
+            
+            <div id="ttLoading" style="text-align:center; display:none;">
+                <i class="fas fa-spinner fa-spin"></i> ANALYZING VIDEO...
+            </div>
+
+            <div id="ttResult" class="tt-result-card">
+                <img id="ttThumb" src="" class="tt-thumb">
+                <h4 id="ttTitle" style="color:#fff; font-size:14px; margin-bottom:25px; font-weight:600; line-height:1.6;">Judul Video</h4>
+                <div class="tt-grid">
+                    <a id="btnMp4" href="#" target="_blank" class="tt-btn">
+                        <i class="fas fa-play-circle fa-lg"></i>
+                        <span>MP4 VIDEO</span>
+                    </a>
+                    <a id="btnMp3" href="#" target="_blank" class="tt-btn mp3">
+                        <i class="fas fa-music fa-lg"></i>
+                        <span>MP3 AUDIO</span>
+                    </a>
+                </div>
+            </div>
+
+            <button class="back-home-btn" onclick="window.location.reload();">
+                <i class="fas fa-home"></i> BACK TO HOME
+            </button>
+        </div>
+    </div>
+
+    <div id="popupCool" class="popup-cool">
+        <h2 id="popTitle" style="color:#FFD700; font-size:22px; margin-top:0;"></h2>
+        <p id="popMsg" style="font-size:14px; color:#A1A1A6; margin-bottom:30px; line-height:1.6;"></p>
+        <button onclick="document.getElementById('popupCool').style.display='none'" class="yoshi-btn" style="padding:15px; border-radius:15px;">CLOSE</button>
+    </div>
+
+    <script>
+        // Sound Control
+        const video = document.getElementById('headerVideo');
+        const soundBtn = document.getElementById('btnToggleSound');
+        const soundIcon = document.getElementById('soundIcon');
+
+        soundBtn.addEventListener('click', () => {
+            if (video.muted) {
+                video.muted = false;
+                soundIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+            } else {
+                video.muted = true;
+                soundIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
+            }
+        });
+
+        // Popup Helper
+        function showPopup(title, msg, icon) {
+            const pop = document.getElementById('popupCool');
+            document.getElementById('popTitle').innerText = icon + " " + title;
+            document.getElementById('popMsg').innerText = msg;
+            pop.style.display = 'block';
+        }
+
+        // TikTok Downloader API Integration
+        document.getElementById('btnTtDownload').addEventListener('click', async () => {
+            const u = document.getElementById('ttUrlInput').value; 
+            if(!u) {
+                showPopup('NOTIFICATION', 'Please enter a valid TikTok link.', '💎');
+                return;
+            }
+            
+            document.getElementById('ttLoading').style.display = 'block'; 
+            document.getElementById('ttResult').style.display = 'none';
+
+            try { 
+                const r = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(u)}`); 
+                const d = await r.json();
+                if(d.code === 0){ 
+                    document.getElementById('ttThumb').src = d.data.cover; 
+                    document.getElementById('ttTitle').innerText = d.data.title; 
+                    document.getElementById('btnMp4').href = d.data.play; 
+                    document.getElementById('btnMp3').href = d.data.music; 
+                    document.getElementById('ttResult').style.display = 'block'; 
+                } else {
+                    showPopup('FAILED', 'Could not process the video link.', '❌');
+                }
+            } catch(e){
+                showPopup('ERROR', 'Network connection issue.', '⚠️');
+            } finally { 
+                document.getElementById('ttLoading').style.display = 'none'; 
+            }
+        });
+    </script>
+</body>
+</html>
