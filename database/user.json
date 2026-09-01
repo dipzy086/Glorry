@@ -1,0 +1,21 @@
+[
+  {
+    "role": "user"
+  },
+  {
+    "username": "rop",
+    "key": "BBDN",
+    "expired": 1768989844942,
+    "role": "admin",
+    "registered_device": "MK-Linux armv8l-571x1307-TKQPT2VT",
+    "device_meta": "OS: Linux armv8l | Agent: Mozilla/5.0 (Linux; Android 16; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.7499.192 Mobile Safari/537.36"
+  },
+  {
+    "username": "shinta",
+    "key": "RNCD",
+    "expired": 1807095033187,
+    "role": "admin",
+    "registered_device": "MK-Linux armv81-360x800-OXYMZKL3",
+    "device_meta": "OS: Linux armv81 | Agent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36"
+  }
+]
